@@ -99,7 +99,7 @@ class Helper
 						break;
 				}
 			}else {
-				return  Helper::isAnyInvalid($value);
+				return Helper::isAnyInvalid($value);
 			}
 		}
 		foreach($result as $row){
@@ -109,11 +109,29 @@ class Helper
 		}
 		return false;
 	}
+	///
 	static public function prepare($Params){
 		$columns = '';
 		$values = [];
 		$i = 0;
 		$QueryString = '';
+		if (!empty($Params['start_date']) && !empty($Params['end_date']) && !empty($Params['durationUnit'])) {
+			$date1 = new DateTime($Params['start_date']);
+			$date2 = new DateTime($Params['end_date']);
+			$Diff = $date1->diff($date2);
+				switch ($Params['durationUnit']) {
+					case 'DAYS':
+						$duration = $Diff->d;
+						break;
+					case 'HOURS':
+						$duration = $Diff->h;
+						break;
+					case 'WEEKS':
+						$duration = intval($Diff->days) / 7;
+						break;	
+				}
+			$Params['duration'] = intval($duration);
+		}
 		foreach($Params as $key => $value){
 			if ($key!='Id' && $key != 'table') {
 				$comma = ($i < count($Params)-3) ? ',': '';

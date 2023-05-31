@@ -72,7 +72,7 @@ class ConstructionStages
 		$Table = $Params['table'] ?? 'construction_stages';
 		$QueryString = Helper::prepare($Params);
 		try {
-			$Update = $this->db->query("UPDATE construction_stages SET ".$QueryString." WHERE ID='{$Params['Id']}' ");
+			$Update = $this->db->query("UPDATE {$Table} SET ".$QueryString." WHERE ID='{$Params['Id']}' ");
 			if ($Update) {
 				$result = ['outcome'=>true,'Altered'=>$Params['Id']];
 			}else {
@@ -85,7 +85,7 @@ class ConstructionStages
 	}
 	///
 	public function Insert(){
-
+		$Insert = $this->db->query("INSERT INTO ");
 	}
 	public function post(ConstructionStagesCreate $data)
 	{

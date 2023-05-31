@@ -21,7 +21,6 @@ class Api
 	* call_user_func_array([new $target['class'], $target['method']], $params); was returning errors when i use array as parameters
 	* "PATH_INFO"   was causing errors.
 	*/
-	/* Branch 1 */
 	public function __construct(){
 
 		$Method = strtolower($_SERVER['REQUEST_METHOD']) ?? 'cli';
@@ -52,20 +51,25 @@ class Api
 				$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route!'];
 			}
 		}elseif($Method!=='post'){
+
+			///
 			$params = [
 				'class'=>'constructionStages',/// this  parameter is optional. if we use it in our own, then we may want to customize class and methods too.
 				'action'=>'Alter', ///
 				'params'=>[
-					'Id'=>'15',
+					'Id'=>'16',
 					'status'=>'PLANNED',
-					'durationUnit'=>'DAYS',
+					'durationUnit'=>'WEEKS',
 					'color'=>'#FF0000',
-					'table'=>'construction_stages'// its optional too
+					'table'=>'construction_stages',// its optional too
+					'start_date'=>'2015-03-14T10:06:58.240Z',
+					'end_date'=>'2015-04-15T09:05:50.240Z'
 				]
 			];
+			///
+
 			$routes = [
 				'constructionStages'=>[
-					'Delete',
 					'Insert',
 					'Alter'			
 				],
@@ -92,7 +96,6 @@ class Api
 		}
 		echo json_encode($result);
 	}
-	/* Brach 1 */
 
 
 
