@@ -2,17 +2,17 @@
 
 function test(){
 	$data = [
-		'Id'=>'12',
-		'name'=> 'datum',
-		'status'=>'DELETED',
-		'durationUnit'=>'HOURS',
-		'color'=>NULL,
-		'table'=>'construction_stages',// its optional too
-		'start_date'=>'2015-03-15T12:10:22.288T',
-		'end_date'=>'2015-03-14T10:06:58.240Z',
-		'externalId'=>NULL,
-		'action'=>'Alter',
-		'class'=>'constructionStages'
+		'Id'=>'13',
+		// 'name'=> 'bDDATUR',
+		'status'=>'NEW',
+		// 'durationUnit'=>'DAYS',
+		// 'color'=>NULL,
+		// 'table'=>'construction_stages',// optional parameter
+		// 'start_date'=>'2015-03-15T12:10:22.288Z',
+		// 'end_date'=>'2015-03-09T10:06:58.288Z',
+		// 'externalId'=>NULL,
+		'action'=>'Insert',
+		// 'class'=>'ConstructionStages' // optional parameter
 	];
 
 	$ch = curl_init();
@@ -31,4 +31,3 @@ $result = test();
 echo $result;
 
 ?>
-

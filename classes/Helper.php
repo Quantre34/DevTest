@@ -100,9 +100,7 @@ class Helper
 					$duration = $Diff->days;
 					break;
 				case 'HOURS':
-					$baslangic= strtotime($Params['start_date']);
-					$bitis = strtotime($Params['end_date']);
-					return date(':H', abs($bitis-$baslangic));
+					$duration = (intval($Diff->days * 24) + $Diff->h);
 					break;
 				case 'WEEKS':
 					$duration = intval($Diff->days) / 7;

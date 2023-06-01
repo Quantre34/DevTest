@@ -9,7 +9,7 @@ class ConstructionStages
 		$this->db = Api::getDb();
 	}
 
-	public function getAll()
+	public function GetAll()
 	{
 		$stmt = $this->db->prepare("
 			SELECT
@@ -28,7 +28,7 @@ class ConstructionStages
 		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function getSingle($Params)
+	public function GetSingle($Params)
 	{
 		$table = $Params['table'] ?? 'construction_stages';
 		$stmt = $this->db->prepare("
@@ -56,7 +56,7 @@ class ConstructionStages
 		*/
 		$Table = $Params['table'] ?? 'construction_stages';
 		try {
-			// $del = $this->db->query("DELETE FROM {$Table} WHERE ID='{$Params['Id']}' ");
+			//$del = $this->db->query("DELETE FROM {$Table} WHERE ID='{$Params['Id']}' ");
 			$del = $this->db->query("UPDATE {$Table} SET status='DELETED' WHERE ID='{$Params['Id']}' ");
 			if ($del) {
 				$result = ['outcome'=>true,'Deleted'=>$Params['Id']];
@@ -64,7 +64,7 @@ class ConstructionStages
 				$result = ['outcome'=>false,'ErrorMessage'=>'Internal-Error'];
 			}
 		} catch (Exception $e) {
-			$result = ['outcome'=>false,'ErrorMesage'=>$e->getMessage()];
+			$result = ['outcome'=>false,'ErrorMesage'=>'External-Error']; // we can also return $e->getMessage()
 		}
 		return $result;
 	}
@@ -76,7 +76,7 @@ class ConstructionStages
 		*/
 		$Table = $Params['table'] ?? 'construction_stages';
 		try {
-			return $QueryString = Helper::prepare($Params);
+			$QueryString = Helper::prepare($Params);
 			$Update = $this->db->query("UPDATE {$Table} SET ".$QueryString." WHERE ID='{$Params['Id']}' ");
 			if ($Update) {
 				$result = ['outcome'=>true,'Altered'=>$Params['Id']];
@@ -84,7 +84,7 @@ class ConstructionStages
 				$result = ['outcome'=>false,'ErrorMessage'=>'Internal-Error'];
 			}
 		} catch (Exception $e) {
-			$result = ['outcome'=>false,'ErrorMessage'=>$e->getMessage()];
+			$result = ['outcome'=>false,'ErrorMesage'=>'External-Error']; // we can also return $e->getMessage()
 		}
 		return $result;
 	}
@@ -105,7 +105,7 @@ class ConstructionStages
 				$result = ['outcome'=>false,'ErrorMessage'=>'Internal-Error'];
 			}
 		} catch (Exception $e){
-			$result = ['outcome'=>false,'ErrorMessage'=>$e->getMessage()];
+			$result = ['outcome'=>false,'ErrorMesage'=>'External-Error']; // we can also return $e->getMessage()
 		}
 		return $result;
 	}

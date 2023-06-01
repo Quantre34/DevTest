@@ -12,8 +12,6 @@ class Api
 
 	/*  
 	* Old code wasnt working properly actually. 
-	* call_user_func_array([new $target['class'], $target['method']], $params); was returning errors when i use array as parameters
-	* "PATH_INFO"  was causing errors.
 	*/
 
 	public function __construct(){
@@ -23,7 +21,7 @@ class Api
 		$uri = explode('/', $_SERVER['QUERY_STRING']);
 		if ($Method=='get') {
 			$routes = [
-				'constructionStages'=>[
+				'ConstructionStages'=>[
 					'GetAll',
 					'GetSingle',
 					'Delete'
@@ -50,7 +48,7 @@ class Api
 			$params = @$_POST;
 
 			$routes = [
-				'constructionStages'=>[
+				'ConstructionStages'=>[
 					'Insert',
 					'Alter'			
 				],
@@ -59,20 +57,20 @@ class Api
 				]
 			];
 
-			$params['class'] = $params['class'] ?? 'constructionStages';
+			$params['class'] = $params['class'] ?? 'ConstructionStages';
 			if (array_key_exists($params['class'], $routes)) {
 				if (in_array($params['action'],$routes[$params['class']])) {
-					$AnyInvalid = Helper::isAnyInvalid($params,['color','externalId','end_date','Id','table','class','action'],['name','start_date','durationUnit','status']);// $Parameters to sent in && Exceptions which is not going to be Checked if is valid or not && Necessary data
+					$AnyInvalid = Helper::isAnyInvalid($params,['color','externalId','end_date','Id','table','class','action'],[]);// $Parameters to sent in && Exceptions which is not going to be Checked if is valid or not && Necessary data list which Client has to send if is there any  -> ['name','start_date','durationUnit','status']
 					if(!$AnyInvalid){
 						$result = Helper::CallUserFunc([$params['class'],$params['action']], $params);
 					}else {
 						$result = ['outcome'=>false,'ErrorMessage'=>'Invalid Parameter : '.$AnyInvalid];
 					}
 				}else {
-					$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route: action'];
+					$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route!'];
 				}
 			}else {
-				$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route: class'];
+				$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route!'];
 			}
 
 		}
