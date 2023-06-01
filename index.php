@@ -1,32 +1,27 @@
 <?php
 require_once 'Autoloader.php';
-header('Content-Type: application/json');
 Autoloader::register();
-
-
+// error_reporting(0);
 class Api
 {
 	private static $db;
-
 	public static function getDb()
 	{
 		return self::$db;
 	}
 
-
-
 	/*  
-	*
-	* Old code wasnt working for getSingle method. 
+	* Old code wasnt working properly actually. 
 	* call_user_func_array([new $target['class'], $target['method']], $params); was returning errors when i use array as parameters
-	* "PATH_INFO"   was causing errors.
+	* "PATH_INFO"  was causing errors.
 	*/
+
 	public function __construct(){
 
-		$Method = strtolower($_SERVER['REQUEST_METHOD']) ?? 'cli';
+		$Method = strtolower($_SERVER['REQUEST_METHOD']) ?? 'get';
 		self::$db = (new Database())->init();
 		$uri = explode('/', $_SERVER['QUERY_STRING']);
-		if ($Method!=='get') {
+		if ($Method=='get') {
 			$routes = [
 				'constructionStages'=>[
 					'GetAll',
@@ -41,7 +36,7 @@ class Api
 				if (in_array($uri[1],$routes[$uri[0]])) {
 					$params = [
 						'Id'=>@$uri[2],
-						'Table'=>@$uri[3]
+						'table'=>@$uri[3]
 					];
 					$result = Helper::CallUserFunc([$uri[0],$uri[1]],$params);
 				}else {
@@ -50,23 +45,9 @@ class Api
 			}else {
 				$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route!'];
 			}
-		}elseif($Method!=='post'){
+		}elseif($Method=='post'){
 
-			///
-			$params = [
-				'class'=>'constructionStages',/// this  parameter is optional. if we use it in our own, then we may want to customize class and methods too.
-				'action'=>'Alter', ///
-				'params'=>[
-					'Id'=>'16',
-					'status'=>'PLANNED',
-					'durationUnit'=>'WEEKS',
-					'color'=>'#FF0000',
-					'table'=>'construction_stages',// its optional too
-					'start_date'=>'2015-03-14T10:06:58.240Z',
-					'end_date'=>'2015-04-15T09:05:50.240Z'
-				]
-			];
-			///
+			$params = @$_POST;
 
 			$routes = [
 				'constructionStages'=>[
@@ -77,23 +58,25 @@ class Api
 					'AndItsMethods'
 				]
 			];
+
 			$params['class'] = $params['class'] ?? 'constructionStages';
 			if (array_key_exists($params['class'], $routes)) {
 				if (in_array($params['action'],$routes[$params['class']])) {
-					$filter = Helper::isAnyInvalid($params['params']);
-					if(!$filter){
-						$result = Helper::CallUserFunc([$params['class'],$params['action']], $params['params']);
+					$AnyInvalid = Helper::isAnyInvalid($params,['color','externalId','end_date','Id','table','class','action'],['name','start_date','durationUnit','status']);// $Parameters to sent in && Exceptions which is not going to be Checked if is valid or not && Necessary data
+					if(!$AnyInvalid){
+						$result = Helper::CallUserFunc([$params['class'],$params['action']], $params);
 					}else {
-						$result = ['outcome'=>false,'ErrorMessage'=>'Invalid Parameter : '.$filter];
+						$result = ['outcome'=>false,'ErrorMessage'=>'Invalid Parameter : '.$AnyInvalid];
 					}
 				}else {
-					$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route!'];
+					$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route: action'];
 				}
 			}else {
-				$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route!'];
+				$result = ['outcome'=>false,'ErrorMessage'=>'No Such Route: class'];
 			}
 
 		}
+		header('Content-Type: application/json');
 		echo json_encode($result);
 	}
 

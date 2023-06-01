@@ -15,8 +15,8 @@ class ConstructionStages
 			SELECT
 				ID as id,
 				name, 
-				strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as startDate,
-				strftime('%Y-%m-%dT%H:%M:%SZ', end_date) as endDate,
+				DATE_FORMAT( CONVERT_TZ(start_date, @@session.time_zone, '+00:00')  ,'%Y-%m-%dT%TZ') as start_date,
+				DATE_FORMAT( CONVERT_TZ(end_date, @@session.time_zone, '+00:00')  ,'%Y-%m-%dT%TZ') as end_date,
 				duration,
 				durationUnit,
 				color,
@@ -30,18 +30,19 @@ class ConstructionStages
 
 	public function getSingle($Params)
 	{
+		$table = $Params['table'] ?? 'construction_stages';
 		$stmt = $this->db->prepare("
 			SELECT
 				ID as Id,
 				name, 
-				strftime('%Y-%m-%dT%H:%M:%SZ', start_date) as startDate,
-				strftime('%Y-%m-%dT%H:%M:%SZ', end_date) as endDate,
+				DATE_FORMAT( CONVERT_TZ(start_date, @@session.time_zone, '+00:00')  ,'%Y-%m-%dT%TZ') as start_date,
+				DATE_FORMAT( CONVERT_TZ(end_date, @@session.time_zone, '+00:00')  ,'%Y-%m-%dT%TZ') as end_date,
 				duration,
 				durationUnit,
 				color,
 				externalId,
 				status
-			FROM construction_stages
+			FROM {$table}
 			WHERE ID = :Id
 		");
 		$stmt->execute(['Id' => $Params['Id']]);
@@ -53,7 +54,7 @@ class ConstructionStages
 		* Table can be Customized too
 		* Returns a proper ErrorMessage in Every scenario
 		*/
-		$Table = $Params['Table'] ?? 'construction_stages';
+		$Table = $Params['table'] ?? 'construction_stages';
 		try {
 			// $del = $this->db->query("DELETE FROM {$Table} WHERE ID='{$Params['Id']}' ");
 			$del = $this->db->query("UPDATE {$Table} SET status='DELETED' WHERE ID='{$Params['Id']}' ");
@@ -69,9 +70,13 @@ class ConstructionStages
 	}
 	///
 	public function Alter($Params){
+		/* 
+		*  Returns Id on success or
+		*  Returns a proper ErrorMessage in Every scenario
+		*/
 		$Table = $Params['table'] ?? 'construction_stages';
-		$QueryString = Helper::prepare($Params);
 		try {
+			return $QueryString = Helper::prepare($Params);
 			$Update = $this->db->query("UPDATE {$Table} SET ".$QueryString." WHERE ID='{$Params['Id']}' ");
 			if ($Update) {
 				$result = ['outcome'=>true,'Altered'=>$Params['Id']];
@@ -84,27 +89,26 @@ class ConstructionStages
 		return $result;
 	}
 	///
-	public function Insert(){
-		$Insert = $this->db->query("INSERT INTO ");
+	public function Insert($Params){
+		/*
+		*  In this case, ID Column is auto_increment
+		*  Returns Parameters back on success or
+		*  Returns a proper ErrorMessage in Every scenario
+		*/
+		$Table = $Params['table'] ?? 'construction_stages';
+		try {
+			$QueryString = Helper::prepare($Params);
+			$Insert = $this->db->query("INSERT INTO {$Table} SET ".$QueryString." ");
+			if ($Insert) {
+				$result = ['outcome'=>true,'parameters'=>$Params];
+			}else {
+				$result = ['outcome'=>false,'ErrorMessage'=>'Internal-Error'];
+			}
+		} catch (Exception $e){
+			$result = ['outcome'=>false,'ErrorMessage'=>$e->getMessage()];
+		}
+		return $result;
 	}
-	public function post(ConstructionStagesCreate $data)
-	{
-		$stmt = $this->db->prepare("
-			INSERT INTO construction_stages
-			    (name, start_date, end_date, duration, durationUnit, color, externalId, status)
-			    VALUES (:name, :start_date, :end_date, :duration, :durationUnit, :color, :externalId, :status)
-			");
-		$stmt->execute([
-			'name' => $data->name,
-			'start_date' => $data->startDate,
-			'end_date' => $data->endDate,
-			'duration' => $data->duration,
-			'durationUnit' => $data->durationUnit,
-			'color' => $data->color,
-			'externalId' => $data->externalId,
-			'status' => $data->status,
-		]);
-		return $this->getSingle($this->db->lastInsertId());
-	}
+
 
 }
