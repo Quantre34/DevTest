@@ -34,7 +34,7 @@ class Api
 				if (in_array($uri[1],$routes[$uri[0]])) {
 					$params = [
 						'Id'=>@$uri[2],
-						'table'=>@$uri[3]
+						'table'=> $uri[3] ?? 'construction_stages'
 					];
 					$result = Helper::CallUserFunc([$uri[0],$uri[1]],$params);
 				}else {
@@ -57,7 +57,8 @@ class Api
 				]
 			];
 
-			$params['class'] = $params['class'] ?? 'ConstructionStages';
+			$params['class'] = $params['class'] ?? 'ConstructionStages'; // Setting default class
+			$params['table'] = $params['table'] ?? 'construction_stages'; // Setting default table
 			if (array_key_exists($params['class'], $routes)) {
 				if (in_array($params['action'],$routes[$params['class']])) {
 					$AnyInvalid = Helper::isAnyInvalid($params,['color','externalId','end_date','Id','table','class','action'],[]);// $Parameters to sent in && Exceptions which is not going to be Checked if is valid or not && Necessary data list which Client has to send if is there any  -> ['name','start_date','durationUnit','status']

@@ -51,10 +51,9 @@ class ConstructionStages
 	///
 	public function Delete($Params){
 		/*
-		* Table can be Customized too
 		* Returns a proper ErrorMessage in Every scenario
 		*/
-		$Table = $Params['table'] ?? 'construction_stages';
+		$Table = $Params['table'];
 		try {
 			//$del = $this->db->query("DELETE FROM {$Table} WHERE ID='{$Params['Id']}' ");
 			$del = $this->db->query("UPDATE {$Table} SET status='DELETED' WHERE ID='{$Params['Id']}' ");
@@ -71,15 +70,15 @@ class ConstructionStages
 	///
 	public function Alter($Params){
 		/* 
-		*  Returns Id on success or
+		*  Returns Id and the parameters back on success or
 		*  Returns a proper ErrorMessage in Every scenario
 		*/
-		$Table = $Params['table'] ?? 'construction_stages';
+		$Table = $Params['table'];
 		try {
 			$QueryString = Helper::prepare($Params);
 			$Update = $this->db->query("UPDATE {$Table} SET ".$QueryString." WHERE ID='{$Params['Id']}' ");
 			if ($Update) {
-				$result = ['outcome'=>true,'Altered'=>$Params['Id']];
+				$result = ['outcome'=>true,'Id'=>$Params['Id'],'data'=>$Params];
 			}else {
 				$result = ['outcome'=>false,'ErrorMessage'=>'Internal-Error'];
 			}
@@ -95,7 +94,7 @@ class ConstructionStages
 		*  Returns Parameters back on success or
 		*  Returns a proper ErrorMessage in Every scenario
 		*/
-		$Table = $Params['table'] ?? 'construction_stages';
+		$Table = $Params['table'];
 		try {
 			$QueryString = Helper::prepare($Params);
 			$Insert = $this->db->query("INSERT INTO {$Table} SET ".$QueryString." ");

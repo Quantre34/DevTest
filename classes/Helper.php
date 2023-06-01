@@ -115,6 +115,7 @@ class Helper
 			}
 		}
 		foreach($Params as $key => $value){
+			$value = htmlspecialchars($value);
 			$comma = ($i < count($Params)-1) ? ',': '';
 			$QueryString .= $key.'=\''.$value.'\''.$comma;
 			$i++;
