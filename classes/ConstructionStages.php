@@ -13,7 +13,7 @@ class ConstructionStages
 	{	
 		/*	@label GetAll
 		*	@GetAll@param table (optional)
-		*	@GetAll@return success: ['outcome'=>bloean,'data'=>[...]], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@GetAll@return success: ['outcome'=>boolean,'data'=>[...]], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
 		*/
 		try {
 			$table = $Params['table'];
@@ -47,7 +47,7 @@ class ConstructionStages
 	{	
 		/*	@label GetSingle
 		*	@GetSingle@param Id & table (optional)
-		*	@GetSingle@return success: ['outcome'=>bloean,'data'=>[...]], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@GetSingle@return success: ['outcome'=>boolean,'data'=>[...]], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
 		*/
 		try {
 			$table = $Params['table'];
@@ -81,7 +81,7 @@ class ConstructionStages
 	public function Delete($Params){
 		/*	@label Delete
 		*	@Delete@param Id & table (optional)
-		*	@Delete@return success: ['outcome'=>bloean,'Id'=>123], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@Delete@return success: ['outcome'=>boolean,'Id'=>123], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
 		*/
 		$Table = $Params['table'];
 		try {
@@ -101,7 +101,7 @@ class ConstructionStages
 	public function Alter($Params){
 		/*	@label Alter
 		*	@Alter@param Id & table & columns and values that going to be Altered (Id is necessary but table&class is optional, except these only one parameter is enough to Alterization) [Id,name,status,durationUnit,color,table,start_date,end_date,externalId,action,class=optional]
-		*	@Alter@return success: ['outcome'=>bloean,'Id'=>123], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@Alter@return success: ['outcome'=>boolean,'Id'=>123], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
 		*	@Info Alter Method can be used as Patch. Send [Id,action,parameter1]
 		*/
 		$Table = $Params['table'];
@@ -122,7 +122,7 @@ class ConstructionStages
 	public function Insert($Params){
 		/*	@label Insert
 		*	@Insert@param Id & table & columns and values that going to be Inserted (Id is necessary but table is optional) [name,status,durationUnit,color,table,start_date,end_date,externalId,action,class=optional]
-		*	@Insert@return success: ['outcome'=>bloean,'Id'=>123], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@Insert@return success: ['outcome'=>boolean,'Id'=>123], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
 		*	@Insert@Info In this case, ID Column is auto_increment
 		*/
 		$Table = $Params['table'];

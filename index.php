@@ -16,7 +16,7 @@ class Api
 		*	@author Quantre34
 		*	@label Api
 		*	@Api@param $_GET || $_POST 
-		*	@Api@return success: ['outcome'=>bloean,'data'=>[...] or 'Id'=>'000'], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@Api@return success: ['outcome'=>boolean,'data'=>[...] or 'Id'=>'000'], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
 		*	@Api@Info Data Type : json
 		*/
 
