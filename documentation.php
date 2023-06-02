@@ -98,8 +98,9 @@ $result = $get->GetInfo();
 	</div>
 	<center><div class="row">
 		
-		<h3>Welcome to my API documentation</h3>
-
+		<h2>Welcome to my API documentation</h2>
+		<br>
+		<br>
 	</div></center>
 <table class="table">
   <thead>
@@ -133,5 +134,13 @@ $result = $get->GetInfo();
 ?>
   </tbody>
 </table>
+	<center>
+		<h4>Url Library</h4>
+		<p>post: 'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/'</p>
+	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetAll'</p>
+	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetAll/table/construction_stages'</p>
+	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetSingle/Id'</p>
+	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetSingle/Id/construction_stages'</p>
+	</center>
 </body>
 </html>

@@ -2,17 +2,21 @@
 
 function test(){
 	/*
-	* Only 1 parameter is enough to Insert, Can be customized in index.php
+	* Only 1 parameter is enough to Insert, Can be customized in index.php by adding the field to the necessities list
 	* If Alter, Id And is Necessary
 	*/
-	$url = 'http://localhost/devtest/?ConstructionStages/GetAll';
-	$url = 'http://localhost/devtest/?ConstructionStages/GetAll/table/construction_stages';
-	$url = 'http://localhost/devtest/?ConstructionStages/GetSingle/Id';
-	$url = 'http://localhost/devtest/?ConstructionStages/GetSingle/Id/construction_stages';
-	$url = 'http://localhost/devtest/';
+
+	// Here Are Some Samples for Get Methods
+	$url = 'http://sorupaneli.com/devtest/?ConstructionStages/GetAll';
+	$url = 'http://sorupaneli.com/devtest/?ConstructionStages/GetAll/table/construction_stages';
+	$url = 'http://sorupaneli.com/devtest/?ConstructionStages/GetSingle/Id';
+	$url = 'http://sorupaneli.com/devtest/?ConstructionStages/GetSingle/Id/construction_stages';
+	//
+
+	$url = 'http://sorupaneli.com/devtest/';
 	$data = [
 		'Id'=>'13',
-		'name'=> 'Name Or Title',
+		'name'=> 'Name Or Title right',
 		'status'=>'NEW',
 		'durationUnit'=>'DAYS',
 		'color'=>NULL,
@@ -20,7 +24,7 @@ function test(){
 		'start_date'=>'2015-03-15T12:10:22.288Z',
 		'end_date'=>'2015-03-09T10:06:58.288Z',
 		'externalId'=>NULL,
-		'action'=>'Insert',
+		'action'=>'Alter',
 		'class'=>'ConstructionStages' // optional parameter
 	];
 
