@@ -136,11 +136,11 @@ $result = $get->GetInfo();
 </table>
 	<center>
 		<h4>Url Library</h4>
-		<p>post: 'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/'</p>
-	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetAll'</p>
-	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetAll/table/construction_stages'</p>
-	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetSingle/Id'</p>
-	<p>'http://<? $_SERVER['HTTP_HOST'] ?>/devtest/?ConstructionStages/GetSingle/Id/construction_stages'</p>
+		<p>post: 'http://sorupaneli.com/devtest/'</p>
+	<p>'http://sorupaneli.com/devtest/?ConstructionStages/GetAll'</p>
+	<p>'http://sorupaneli.com/devtest/?ConstructionStages/GetAll/table/construction_stages'</p>
+	<p>'http://sorupaneli.com/devtest/?ConstructionStages/GetSingle/Id'</p>
+	<p>'http://sorupaneli.com/devtest/?ConstructionStages/GetSingle/Id/construction_stages'</p>
 	</center>
 </body>
 </html>
