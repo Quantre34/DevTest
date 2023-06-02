@@ -10,11 +10,15 @@ class Api
 		return self::$db;
 	}
 
-	/*  
-	* Old code wasnt working properly actually. 
-	*/
-
 	public function __construct(){
+
+		/* 
+		*	@author Quantre34
+		*	@label Api
+		*	@Api@param $_GET || $_POST 
+		*	@Api@return success: ['outcome'=>bloean,'data'=>[...] or 'Id'=>'000'], fail: ['outcome'=>false,'ErrorMessage'=>'Explanation']
+		*	@Api@Info Data Type : json
+		*/
 
 		$Method = strtolower($_SERVER['REQUEST_METHOD']) ?? 'get';
 		self::$db = (new Database())->init();
@@ -59,9 +63,11 @@ class Api
 
 			$params['class'] = $params['class'] ?? 'ConstructionStages'; // Setting default class
 			$params['table'] = $params['table'] ?? 'construction_stages'; // Setting default table
+			$exceptions = ['color','externalId','end_date','Id','table','class','action'];
+			$necessities = ($params['action']=='Alter' && empty($Params['Id']))? ['Id'] : []; // we can customize the Necessity list according to action if desired
 			if (array_key_exists($params['class'], $routes)) {
 				if (in_array($params['action'],$routes[$params['class']])) {
-					$AnyInvalid = Helper::isAnyInvalid($params,['color','externalId','end_date','Id','table','class','action'],[]);// $Parameters to sent in && Exceptions which is not going to be Checked if is valid or not && Necessary data list which Client has to send if is there any  -> ['name','start_date','durationUnit','status']
+					$AnyInvalid = Helper::isAnyInvalid($params,$exceptions,$necessities);// $Parameters to sent in && Exceptions which is not going to be Checked if is valid or not && Necessary data list which Client has to send if is there any -> sample ['name','start_date','durationUnit','status']
 					if(!$AnyInvalid){
 						$result = Helper::CallUserFunc([$params['class'],$params['action']], $params);
 					}else {

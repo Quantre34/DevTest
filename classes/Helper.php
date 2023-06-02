@@ -12,6 +12,11 @@ class Helper
 	}
 
 	static public function CallUserFunc($Arr,$Params){
+		/*
+		*	@param both array, class and method names && Parameters to send in this class|method
+		*	@return result of the Method of the Class that is called
+		*	@Info call_user_func_array Func was causing error with arrays, like arrays passing as string or only the first element passes. so i wrote it myself
+		*/
 		$Func = new $Arr[0];
 		$result = [$Func, $Arr[1]]($Params);
 		return json_encode($result);
@@ -32,9 +37,8 @@ class Helper
 	}
     ///
 	static public function isAnyInvalid($Params,$exceptions=[], $necessities=[]){
-		/*
-		*	this method is to check if any value is invalid and if it is, returns $key so we can show which parameter is invalid to the api client..!
-		*
+		/*	@param parameters which have to be checked if is Valid or not && $exceptions list that cant be checked && List of required parameters
+		*	@return false if All parameters except the ones in the exception list are valid && $key of the parameter for invalid parameter
 		*/
 		$result = [];
 		$AllowedStatus = ['NEW','PLANNED','DELETED'];
@@ -53,7 +57,7 @@ class Helper
 							$result[] = (empty($value) || !Helper::isISO8601($value)) ? $key : false;
 							break;
 						case 'end_date':
-							$result[] = (!empty($value) && strtotime($value) < strtotime($Params['start_date']) || !Helper::isISO8601($value)) ? $key : false;
+							$result[] = (!empty($value) && strtotime($value) <= strtotime($Params['start_date']) || !Helper::isISO8601($value)) ? $key : false;
 							break;
 						case 'durationUnit':
 							$result[] = (!in_array($value, $AllowedDurationUnits)) ? $key : false;
@@ -87,6 +91,10 @@ class Helper
 	}
 	///
 	static public function prepare($Params){
+		/*
+		*	@param requires the parameters desired to be Inserted or Altered (column names and values)
+		*	@return string to be used in sql command
+		*/
 		$columns = '';
 		$values = [];
 		$i = 0;
