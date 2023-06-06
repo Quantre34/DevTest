@@ -2,7 +2,9 @@
 
 class Database
 {
-
+	// const name = 'sorupane_testDb';
+	// const User = 'sorupane_sorupanelicomuser';
+	// const Pass = '13979997622sorupaneli';
 	const name = 'testdb';
 	const User = 'root';
 	const Pass = '';
