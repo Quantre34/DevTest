@@ -1,0 +1,15 @@
+---
+get:
+  ConstructionStages:
+  - GetAll
+  - GetSingle
+  - Delete
+  SomOtherclass:
+  - AndItsMethods
+post:
+  ConstructionStages:
+  - Insert
+  - Alter
+  SomOtherclass:
+  - AndItsMethods
+...
